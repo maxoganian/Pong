@@ -58,11 +58,22 @@ class Player(pygame.sprite.Sprite):
         self.xPos = xPos
 
     # Move the sprite based on user keypresses
-    def update(self, pressed_keys, leftKey, rightKey):
+    def update(self, pressed_keys, player, leftKey, rightKey):
         if pressed_keys[leftKey]:
             self.rect.move_ip(-5, 0)
         if pressed_keys[rightKey]:
             self.rect.move_ip(5, 0)
+
+        if numJoysticks > 2:
+            axis1 = 0
+            if player == 1:
+                axis1 = joysticks[1]
+            elif player == 2:
+                axis1 = joysticks[2]
+            if axis1 >= .8:
+                self.rect.move_ip(-5, 0)
+            if axis1 <- -.8:
+                self.rect.move_ip(5, 0)
 
         # Keep player on the screen
         if self.rect.left < 0:
@@ -75,6 +86,29 @@ class Player(pygame.sprite.Sprite):
 # Initialize pygame
 pygame.init()
 pygame.font.init()
+
+# look for joysticks
+numJoysticks = pygame.joystick.get_count()
+print("Detected num Joysticks: ", numJoysticks)
+useJoysticks = numJoysticks != 0
+
+# init all the joysticks we have
+joysticks = []
+for i in range(numJoysticks):
+    j = pygame.joystick.Joystick(i)
+    j.init()
+    joysticks.append(j)
+
+# Joystick constants
+# north button goes forward
+
+JOY_BTN_NORTH = 3     
+JOY_BTN_SOUTH = 6    
+JOY_BTN_EAST = 5     
+JOY_BTN_WEST = 2    
+JOY_BTN_CENTER = 4
+JOY_BTN_COIN = 0
+JOY_BTN_PLAYER = 1
 
 # Create the screen object
 # The size is determined by the constant SCREEN_WIDTH and SCREEN_HEIGHT
@@ -92,6 +126,7 @@ all_players.add(player2)
 all_sprites = pygame.sprite.Group()
 all_sprites.add(all_players)
 all_sprites.add(ball)
+
 
 # Variable to keep the main loop running
 running = True
@@ -122,8 +157,8 @@ while running:
     screen.fill((0, 0, 0))
 
     # Update the player sprite based on user keypresses
-    player1.update(pressed_keys, K_LEFT, K_RIGHT)  
-    player2.update(pressed_keys, pygame.K_z, pygame.K_x)
+    player1.update(pressed_keys, 1, K_LEFT, K_RIGHT)  
+    player2.update(pressed_keys, 2, pygame.K_z, pygame.K_x)
 
     ball.update()
 
