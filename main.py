@@ -73,7 +73,7 @@ class Player(pygame.sprite.Sprite):
             print(axis1)
             if axis1 >= .8:
                 self.rect.move_ip(-5, 0)
-            if axis1 <- -.8:
+            if axis1 <= -.8:
                 self.rect.move_ip(5, 0)
 
         # Keep player on the screen
