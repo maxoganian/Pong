@@ -154,6 +154,8 @@ while running:
         elif event.type == QUIT:
             running = False
 
+    if joysticks[0].get_button(JOY_BTN_COIN) and joysticks[0].get_button(JOY_BTN_PLAYER):
+        running = False
     # Get all the keys currently pressed
     pressed_keys = pygame.key.get_pressed()
 
