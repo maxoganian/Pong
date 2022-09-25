@@ -81,7 +81,10 @@ class Player(pygame.sprite.Sprite):
         if self.rect.right > SCREEN_WIDTH:
             self.rect.right = SCREEN_WIDTH
         
-        font.render_to(screen, (40, self.xPos), str(self.points), (255, 255, 255))
+        # font.render_to(screen, (40, self.xPos), str(self.points), (255, 255, 255))
+        text_surf = font.render(str(self.points), True, (255,255,255))
+        text_rect = text_surf.get_rect(center=(40, self.xPos))
+        screen.blit(text_surf, text_rect)   
 
 # Initialize pygame
 pygame.init()
@@ -135,7 +138,7 @@ running = True
 clock = pygame.time.Clock()
 
 #init font
-font = pygame.freetype.SysFont('Comic Sans MS', 32)
+font = pygame.font.SysFont(None, 25)
 
 # Main loop
 while running:
