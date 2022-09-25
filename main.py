@@ -67,9 +67,9 @@ class Player(pygame.sprite.Sprite):
         if numJoysticks > 2:
             axis1 = 0
             if player == 1:
-                axis1 = joysticks[1].get_axis(0)
+                axis1 = joysticks[0].get_axis(0)
             elif player == 2:
-                axis1 = joysticks[2].get_axis(0)
+                axis1 = joysticks[1].get_axis(0)
             print(axis1)
             if axis1 >= .8:
                 self.rect.move_ip(-5, 0)
